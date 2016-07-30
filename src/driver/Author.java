@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class Author {
   WriteToConsole printObject;
-
+  WriteToFile printFileObject;
   String rawHTMLString;
     
   List<String> authorName;
@@ -75,6 +75,7 @@ public class Author {
     
     totalCoAuthors.addAll(coAuthorsList);
     java.util.Collections.sort(totalCoAuthors);
+    
     
     this.printObject = new WriteToConsole(this);
     
