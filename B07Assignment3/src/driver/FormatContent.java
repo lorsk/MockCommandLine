@@ -15,7 +15,7 @@ public class FormatContent {
    */
   public FormatContent(Author author) {
     this.author = author;
-    addToContent("------------------------------------------------");
+    addToContent("\n------------------------------------------------");
     addToContent("\n1. Name of Author");
     addListToContent(this.author.authorName);
     addToContent("\n2. Number of All Citations:");
@@ -75,7 +75,7 @@ public class FormatContent {
    * 
    */
   public static void addContentToCoAuthors() {
-    addToCoAuthorsString("------------------------------------------------");
+    addToCoAuthorsString("\n------------------------------------------------");
     addToCoAuthorsString("\n7. Co-Author list sorted(Total: " 
                                      + Author.numberOfTotalCoAuthors + ")");
     for (String coAuthor : Author.totalCoAuthors) {
