@@ -12,7 +12,6 @@ public class WriteToFile {
     FormatContent formattedContent;
     String fileName;
     File outFile;
-    int createdFile;
     /*
      * 
      */
