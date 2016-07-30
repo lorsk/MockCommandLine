@@ -44,9 +44,9 @@ public class Author {
   
   final String reForCoAuthors = "=en\" title=\".*?\">(.*?)</a><br>";
   
-  String authorName;
-  String numberOfCitations;
-  String i10IndexAfter2009;
+  List<String> authorName;
+  List<String> numberOfCitations;
+  List<String> i10IndexAfter2009;
   //List<String> listOfMatchedItems = new ArrayList<String>();
   List<String> topPublications;
   List<String> coAuthorsList;
@@ -61,20 +61,15 @@ public class Author {
   public Author(String AuthorUrlString) throws Exception {
     this.googleScholarParser = new MyParser();
     this.rawHTMLString = googleScholarParser.getHTML(AuthorUrlString);
-    this.authorName = extractSingleItem(reForNameExtraction);
-    this.numberOfCitations = extractSingleItem(reForCitationExtraction);
+    this.authorName = extractListOfItems(reForNameExtraction);
+    this.numberOfCitations = extractListOfItems(reForCitationExtraction);
     
-    //System.out.println("printing topPublications");
     this.topPublications = extractListOfItems(reForPublications, 4);
-    //System.out.println("printing i10IndexAfter2009");
-    this.i10IndexAfter2009 = extractSingleItem(reForItenExtraction);
-    //System.out.println("printing reForCitedNum");
+    this.i10IndexAfter2009 = extractListOfItems(reForItenExtraction);
     for(String cts : extractListOfItems(reForCitedNum, 5)) {
-      this.totalCitations = this.totalCitations + Integer.valueOf(cts);
+      this.totalCitations = (this.totalCitations + Integer.valueOf(cts));
     }
-    //coAuthorsList  = new ArrayList<String>();
     this.coAuthorsList = extractListOfItems(reForCoAuthors, 15);
-    //System.out.println(coAuthorsList);
     this.numberOfCoAuthors = coAuthorsList.size();
     numberOfTotalCoAuthors = numberOfTotalCoAuthors + numberOfCoAuthors;
     
@@ -84,25 +79,28 @@ public class Author {
     
   }
   
+
+
+  
   /*
    * 
-   * 
    */
-  private String extractSingleItem(String reForExtraction) {
-    String itemFound = "No Information Found";
+  private List<String> extractListOfItems(String reForExtraction) {
+    List<String> listOfMatchedItems = new ArrayList<String>();
     try {
       patternObject = Pattern.compile(reForExtraction);
       matcherObject = patternObject.matcher(rawHTMLString);
       while (matcherObject.find()) {
-        itemFound = matcherObject.group(1);
+        listOfMatchedItems.add(matcherObject.group(1));
+        
       }
 
     } catch (Exception e) {
-      System.out.println("malformed URL or cannot open connection to "
-          + "given URL");
+      System.out.println(e);
     }
-    return itemFound;
+    return listOfMatchedItems;
   }
+  
   
   /*
    * 
@@ -122,32 +120,6 @@ public class Author {
       System.out.println(e);
     }
     return listOfMatchedItems;
-  }
-  
-  public void printAuthor() {
-    System.out.println("1. Name of Author");
-    System.out.println("\t" + authorName);
-    System.out.println("2. Number of All Citations:");
-    System.out.println("\t" + numberOfCitations);
-    System.out.println("3. Number of i10-index after 2009");
-    System.out.println("\t" + i10IndexAfter2009);
-    System.out.println("4. Title of first 3 publications:");
-    for (int index=1;index < topPublications.size();index++)
-    {
-      System.out.println("\t" + index + "- " + topPublications.get(index));
-    }
-    System.out.println("5. Total paper citation (first 5 papers):");
-    System.out.println("\t" + totalCitations);
-    System.out.println("6. Total Co-Authors:");
-    System.out.println("\t" + numberOfCoAuthors);
-  }
-  
-  public void printAllCoAuthors() {
-    System.out.println("7. Co-Author list sorted(Total: " 
-                                            + numberOfTotalCoAuthors + ")");
-    for (String coAuthor : totalCoAuthors) {
-      System.out.println("\t" + coAuthor);
-    }
   }
   
 }
