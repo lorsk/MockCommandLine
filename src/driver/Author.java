@@ -14,8 +14,7 @@ package driver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 /*
  * This program extracts and stores all of the contents of the wanted Author.
@@ -26,25 +25,9 @@ import java.util.regex.Pattern;
  */
 public class Author {
   WriteToConsole printObject;
-  Pattern patternObject;
-  Matcher matcherObject;
+
   String rawHTMLString;
-  
-  final String  reForNameExtraction = "<span id=\"cit-name-display\" "
-                              + "class=\"cit-in-place-nohover\">(.*?)</span>";
-  final String reForCitationExtraction = "Citations</a.*?<td "
-      + "class=\"cit-borderleft cit-data\">(.*?)</td>.*?";
-  
-  final String reForItenExtraction = "i10-index<.*?<td class=\"cit-borderleft"
-      + " cit-data\">.*?</td>.*?"
-      + "<td class=\"cit-borderleft cit-data\">(.*?)</td>";
-  
-  final String reForPublications = "<td id=\"col-title\"><a href=\".*?>(.*?)<";
-  
-  final String reForCitedNum = "<td id=\"col-citedby\"><a class=\".*?>(.*?)<";
-  
-  final String reForCoAuthors = "=en\" title=\".*?\">(.*?)</a><br>";
-  
+    
   List<String> authorName;
   List<String> numberOfCitations;
   List<String> i10IndexAfter2009;
@@ -53,6 +36,13 @@ public class Author {
   static List<String> totalCoAuthors = new ArrayList<String>();
   static int numberOfTotalCoAuthors = 0;
   
+  ExtractAuthorName name;
+  ExtractNumberOfCitations citations;
+  ExtractTopPublications publications;
+  ExtractITenIndex itenIndex;
+  ExtractTotalCitations totalPaperCitations;
+  ExtractCoAuthors coAuthors;
+  
   int numberOfCoAuthors;
   int totalCitations = 0;
   /*
@@ -60,65 +50,34 @@ public class Author {
    */
   public Author(String AuthorUrlString) throws Exception {
     
+    name = new ExtractAuthorName(AuthorUrlString);
+    this.authorName = name.extract();
     
-    this.rawHTMLString = RawHTMLContents.getHTML(AuthorUrlString);
+    citations = new ExtractNumberOfCitations(AuthorUrlString);
+    this.numberOfCitations = citations.extract();
     
-    this.authorName = extractListOfItems(reForNameExtraction);
-    this.numberOfCitations = extractListOfItems(reForCitationExtraction);
+    publications = new ExtractTopPublications(AuthorUrlString);
+    this.topPublications = publications.extract();
     
-    this.topPublications = extractListOfItems(reForPublications, 4);
-    this.i10IndexAfter2009 = extractListOfItems(reForItenExtraction);
-    for(String cts : extractListOfItems(reForCitedNum, 5)) {
+    itenIndex = new ExtractITenIndex(AuthorUrlString);
+    this.i10IndexAfter2009 = itenIndex.extract();
+
+    totalPaperCitations = new ExtractTotalCitations(AuthorUrlString);
+    for(String cts : totalPaperCitations.extract()) {
       this.totalCitations = (this.totalCitations + Integer.valueOf(cts));
     }
-    this.coAuthorsList = extractListOfItems(reForCoAuthors, 15);
+    
+    coAuthors = new ExtractCoAuthors(AuthorUrlString);
+    this.coAuthorsList = coAuthors.extract();
     this.numberOfCoAuthors = coAuthorsList.size();
+
     numberOfTotalCoAuthors = numberOfTotalCoAuthors + numberOfCoAuthors;
     
     totalCoAuthors.addAll(coAuthorsList);
     java.util.Collections.sort(totalCoAuthors);
     
     this.printObject = new WriteToConsole(this);
+    
   }
-  
-  /*
-   * 
-   */
-  private List<String> extractListOfItems(String reForExtraction) {
-    List<String> listOfMatchedItems = new ArrayList<String>();
-    try {
-      patternObject = Pattern.compile(reForExtraction);
-      matcherObject = patternObject.matcher(rawHTMLString);
-      while (matcherObject.find()) {
-        listOfMatchedItems.add(matcherObject.group(1));
-        
-      }
-
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return listOfMatchedItems;
-  }
-  
-  
-  /*
-   * 
-   */
-  private List<String> extractListOfItems(String reForExtraction, 
-                                          int numItems) {
-    List<String> listOfMatchedItems = new ArrayList<String>();
-    try {
-      patternObject = Pattern.compile(reForExtraction);
-      matcherObject = patternObject.matcher(rawHTMLString);
-      while (matcherObject.find() && listOfMatchedItems.size() < numItems) {
-        listOfMatchedItems.add(matcherObject.group(1));
-        
-      }
-
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return listOfMatchedItems;
-  }
-  
+ 
 }
