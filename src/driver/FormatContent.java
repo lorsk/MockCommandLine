@@ -59,7 +59,10 @@ public class FormatContent {
   }
   
   /*
-   * 
+   * This defines how the extracted info that contains many different 
+   * matches (like the names of co-authors or publication titles) is
+   * formatted. In this case it just creates a new line, indents and 
+   * then prints the next item matched.
    */
   private void addListToContent(List<String> list) {
     //
@@ -79,7 +82,7 @@ public class FormatContent {
       addToCoAuthorsString("\n\t" + coAuthor);
     }
   }
- 
+  
   
   /*
    * 
