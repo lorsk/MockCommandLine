@@ -24,8 +24,7 @@ import java.util.List;
  * proper variables
  */
 public class Author {
-  WriteToConsole printObject;
-  WriteToFile printFileObject;
+
   String rawHTMLString;
     
   List<String> authorName;
@@ -48,26 +47,32 @@ public class Author {
   /*
    * Constructor that creates the author instance
    */
-  public Author(String AuthorUrlString) throws Exception {
+  public Author(String AuthorUrlString){
+    try {
+      this.rawHTMLString = RawHTMLContents.getHTML(AuthorUrlString);
+    } catch (Exception e) { 
+      System.out.print(AuthorUrlString + " file not found");
+      
+    }
     
-    name = new ExtractAuthorName(AuthorUrlString);
+    name = new ExtractAuthorName(this.rawHTMLString);
     this.authorName = name.extract();
     
-    citations = new ExtractNumberOfCitations(AuthorUrlString);
+    citations = new ExtractNumberOfCitations(this.rawHTMLString);
     this.numberOfCitations = citations.extract();
     
-    publications = new ExtractTopPublications(AuthorUrlString);
+    publications = new ExtractTopPublications(this.rawHTMLString);
     this.topPublications = publications.extract();
     
-    itenIndex = new ExtractITenIndex(AuthorUrlString);
+    itenIndex = new ExtractITenIndex(this.rawHTMLString);
     this.i10IndexAfter2009 = itenIndex.extract();
 
-    totalPaperCitations = new ExtractTotalCitations(AuthorUrlString);
+    totalPaperCitations = new ExtractTotalCitations(this.rawHTMLString);
     for(String cts : totalPaperCitations.extract()) {
       this.totalCitations = (this.totalCitations + Integer.valueOf(cts));
     }
     
-    coAuthors = new ExtractCoAuthors(AuthorUrlString);
+    coAuthors = new ExtractCoAuthors(this.rawHTMLString);
     this.coAuthorsList = coAuthors.extract();
     this.numberOfCoAuthors = coAuthorsList.size();
 
@@ -76,8 +81,6 @@ public class Author {
     totalCoAuthors.addAll(coAuthorsList);
     java.util.Collections.sort(totalCoAuthors);
     
-    
-    this.printObject = new WriteToConsole(this);
     
   }
  

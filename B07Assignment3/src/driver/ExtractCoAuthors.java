@@ -4,13 +4,16 @@ import java.util.List;
 
 public class ExtractCoAuthors extends AbstractExtractClass{
 
-  public ExtractCoAuthors(String AuthorUrlString) throws Exception {
-    this.rawHTMLString = RawHTMLContents.getHTML(AuthorUrlString);
+  final String reForCoAuthors = "=en\" title=\".*?\">(.*?)</a><br>";    
+
+  public ExtractCoAuthors(String rawHTMLString) {
+    this.rawHTMLString = rawHTMLString;
+    this.extracted = extractListOfItems(reForCoAuthors, 15);
 
   }
   @Override
   public List<String> extract() {
-    return extractListOfItems(reForCoAuthors, 15);
+    return this.extracted;
     
   }
 }

@@ -9,24 +9,10 @@ public abstract class AbstractExtractClass {
   Pattern patternObject;
   Matcher matcherObject;
   String rawHTMLString;
-  
-  final String reForNameExtraction = "<span id=\"cit-name-display\" "
-                      + "class=\"cit-in-place-nohover\">(.*?)</span>";
-  
-  final String reForCitationExtraction = "Citations</a.*?<td "
-                      + "class=\"cit-borderleft cit-data\">(.*?)</td>.*?";
-  
-  final String reForPublications = "<td id=\"col-title\"><a href=\".*?>(.*?)<";
-  
-  final String reForItenExtraction = "i10-index<.*?<td class=\"cit-borderleft"
-                      + " cit-data\">.*?</td>.*?"
-                      + "<td class=\"cit-borderleft cit-data\">(.*?)</td>";
-  
-  final String reForCitedNum = "<td id=\"col-citedby\"><a class=\".*?>(.*?)<";
-  
-  final String reForCoAuthors = "=en\" title=\".*?\">(.*?)</a><br>";    
-  
+  List<String> extracted;
+     
   abstract public List<String> extract();
+
   
   /*
    * 

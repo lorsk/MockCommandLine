@@ -6,37 +6,38 @@ public class FormatContent {
 
   // this is the instance of the Author object that has the info
   // that needs to be printed
-  Author author;
+  List<Author> authors;
   private String formattedString = "";
   private static String allCoAuthorsString = "";
   
   /*
    * 
    */
-  public FormatContent(Author author) {
-    this.author = author;
+  public FormatContent(List<Author> authors) {
+    for (Author author : authors) {  
     addToContent("\n------------------------------------------------");
     addToContent("\n1. Name of Author");
-    addListToContent(this.author.authorName);
+    addListToContent(author.authorName);
     addToContent("\n2. Number of All Citations:");
-    addListToContent(this.author.numberOfCitations);
+    addListToContent(author.numberOfCitations);
     addToContent("\n3. Number of i10-index after 2009");
-    addListToContent(this.author.i10IndexAfter2009);
+    addListToContent(author.i10IndexAfter2009);
     addToContent("\n4. Title of first 3 publications:");
     
-    for (int index=1;index < this.author.topPublications.size();index++)
+    for (int index=1;index < author.topPublications.size();index++)
     {
       addToContent("\n\t" + index + "- " 
-                          + this.author.topPublications.get(index));
+                          + author.topPublications.get(index));
     }
     
     addToContent("\n5. Total paper citation (first 5 papers):");
-    addToContent("\n\t" + this.author.totalCitations);
+    addToContent("\n\t" + author.totalCitations);
     addToContent("\n6. Total Co-Authors:");
-    addToContent("\n\t" + this.author.numberOfCoAuthors);
+    addToContent("\n\t" + author.numberOfCoAuthors);
     
     }
-  
+    }
+    
   /*
    * 
    */
