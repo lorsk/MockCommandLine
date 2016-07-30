@@ -2,10 +2,10 @@ package driver;
 
 import java.io.File;
 
-public class WriteContentsToFile {
+public class WriteToFile {
 
     File outFile;
-    public WriteContentsToFile(String fileName) {
+    public WriteToFile(String fileName) {
       outFile = new File(fileName);
     }
 }
