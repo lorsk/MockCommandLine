@@ -38,17 +38,31 @@ private static void DEBUGStarterCode(String[] args) throws Exception {
 
  // TODO Auto-generated method stub
  String inputFiles[] = args[0].split(",");
+ 
 
  
  Author sampleOne = new Author(inputFiles[0]);
  Author sampleTwo = new Author(inputFiles[1]);
  Author sampleThree = new Author(inputFiles[2]);
 
- sampleOne.printObject.printAuthor();
- sampleTwo.printObject.printAuthor();
- sampleThree.printObject.printAuthor();
+ 
 
- WriteToConsole.printAllCoAuthors();
+ if (args.length > 1) {
+   String outfile = args[1];
+   WriteToFile file = new WriteToFile(outfile);
+   file.printAuthor(sampleOne);
+   file.printAuthor(sampleTwo);
+   file.printAuthor(sampleThree);
+   file.printAllCoAuthors();
+ }
+ else {
+   sampleOne.printObject.printAuthor();
+   sampleTwo.printObject.printAuthor();
+   sampleThree.printObject.printAuthor();
+
+   WriteToConsole.printAllCoAuthors();
+ }
+
 }
 
 }
