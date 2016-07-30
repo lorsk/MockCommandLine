@@ -11,13 +11,6 @@
 //*********************************************************
 package driver;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class MyParser {
 
 /**
@@ -26,10 +19,7 @@ public class MyParser {
 */
 public static void main(String[] args) throws Exception {
  DEBUGStarterCode(args);
- 
-
 }
-
 
 /*
 * This is a debug/helper method to help you get started. Once you understand
@@ -48,64 +38,17 @@ private static void DEBUGStarterCode(String[] args) throws Exception {
 
  // TODO Auto-generated method stub
  String inputFiles[] = args[0].split(",");
- for (String inputFile : inputFiles) {
-   DEBUGextractAuthorsName(inputFile);
- }
+
  
  Author sampleOne = new Author(inputFiles[0]);
  Author sampleTwo = new Author(inputFiles[1]);
- System.out.println("-------------------------------------------------------");
- sampleTwo.printAuthor();
- System.out.println("-------------------------------------------------------");
- sampleOne.printAuthor();
- System.out.println("-------------------------------------------------------");
- sampleOne.printAllCoAuthors();
+ Author sampleThree = new Author(inputFiles[2]);
+
+ sampleOne.printObject.printAuthor();
+ sampleTwo.printObject.printAuthor();
+ sampleThree.printObject.printAuthor();
+
+ WriteToConsole.printAllCoAuthors();
 }
 
-
-/*
-* This is a debug/helper method to help you get started. Once you understand
-* how this method is being used i.e. the String re, Pattern, Matcher and how
-* the authors name is being extracted, feel free to remove this method or
-* refactor it in any way you like.
-*/
-private static void DEBUGextractAuthorsName(String googleScholarURL) {
- try {
-   MyParser googleScholarParser = new MyParser();
-   String rawHTMLString = googleScholarParser.getHTML(googleScholarURL);
-
-   String reForAuthorExtraction =
-       "<span id=\"cit-name-display\" "
-           + "class=\"cit-in-place-nohover\">(.*?)</span>";
-   Pattern patternObject = Pattern.compile(reForAuthorExtraction);
-   Matcher matcherObject = patternObject.matcher(rawHTMLString);
-   while (matcherObject.find()) {
-     System.out.println("DEBUG: Authors Name is " + matcherObject.group(1));
-   }
-
- } catch (Exception e) {
-   System.out.println("malformed URL or cannot open connection to "
-       + "given URL");
- }
-}
-
-
-
-public String getHTML(String urlString) throws Exception {
- // create object to store html source text as it is being collected
- StringBuilder html = new StringBuilder();
- // open connection to given url
- URL url = new File(urlString).toURI().toURL(); 
- // create BufferedReader to buffer the given url's HTML source
- BufferedReader htmlbr =
-     new BufferedReader(new InputStreamReader(url.openStream()));
- String line;
- // read each line of HTML code and store in StringBuilder
- while ((line = htmlbr.readLine()) != null) {
-   html.append(line);
- }
- htmlbr.close();
- // convert StringBuilder into a String and return it
- return html.toString();
-}
 }
