@@ -24,11 +24,11 @@ import java.util.regex.Pattern;
  * using regex and stores the relevant information into the 
  */
 public class Author {
-
+  WriteToConsole printObject;
   Pattern patternObject;
   Matcher matcherObject;
-  MyParser googleScholarParser;
   String rawHTMLString;
+  
   final String  reForNameExtraction = "<span id=\"cit-name-display\" "
                               + "class=\"cit-in-place-nohover\">(.*?)</span>";
   final String reForCitationExtraction = "Citations</a.*?<td "
@@ -47,7 +47,6 @@ public class Author {
   List<String> authorName;
   List<String> numberOfCitations;
   List<String> i10IndexAfter2009;
-  //List<String> listOfMatchedItems = new ArrayList<String>();
   List<String> topPublications;
   List<String> coAuthorsList;
   static List<String> totalCoAuthors = new ArrayList<String>();
@@ -59,8 +58,10 @@ public class Author {
    * Constructor that creates the author instance
    */
   public Author(String AuthorUrlString) throws Exception {
-    this.googleScholarParser = new MyParser();
-    this.rawHTMLString = googleScholarParser.getHTML(AuthorUrlString);
+    this.printObject = new WriteToConsole(this);
+    
+    this.rawHTMLString = RawHTMLContents.getHTML(AuthorUrlString);
+    
     this.authorName = extractListOfItems(reForNameExtraction);
     this.numberOfCitations = extractListOfItems(reForCitationExtraction);
     
