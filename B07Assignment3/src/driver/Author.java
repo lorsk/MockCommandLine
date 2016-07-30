@@ -18,10 +18,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
- * This program stores all of the contents of the wanted Author.
- * When creating an instance, the user inputs the html file from which 
+ * This program extracts and stores all of the contents of the wanted Author.
+ * When creating an instance, the user inputs the HTML file from which 
  * to extract the information from. The different methods then parse the data
- * using regex and stores the relevant information into the 
+ * using regular expressions and stores the relevant information into the 
+ * proper variables
  */
 public class Author {
   WriteToConsole printObject;
@@ -58,7 +59,7 @@ public class Author {
    * Constructor that creates the author instance
    */
   public Author(String AuthorUrlString) throws Exception {
-    this.printObject = new WriteToConsole(this);
+    
     
     this.rawHTMLString = RawHTMLContents.getHTML(AuthorUrlString);
     
@@ -77,11 +78,8 @@ public class Author {
     totalCoAuthors.addAll(coAuthorsList);
     java.util.Collections.sort(totalCoAuthors);
     
-    
+    this.printObject = new WriteToConsole(this);
   }
-  
-
-
   
   /*
    * 
