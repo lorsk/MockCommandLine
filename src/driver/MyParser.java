@@ -1,8 +1,8 @@
 //**********************************************************
 //Assignment3:
-//UTORID user_name:
+//UTORID user_name:kushtovm 
 //
-//Author:
+//Author:Lors Kushtov
 //
 //
 //Honor Code: I pledge that this program represents my own
@@ -22,9 +22,12 @@ public class MyParser {
 
 /**
 * @param args
+ * @throws Exception 
 */
-public static void main(String[] args) {
+public static void main(String[] args) throws Exception {
  DEBUGStarterCode(args);
+ 
+
 }
 
 
@@ -33,7 +36,7 @@ public static void main(String[] args) {
 * how this method is being used, you are free to refactor it, modify it, or
 * change it, or remove it entirely in any way you like.
 */
-private static void DEBUGStarterCode(String[] args) {
+private static void DEBUGStarterCode(String[] args) throws Exception {
  try {
    System.out.println("DEBUG: URLS are " + args[0]);
    System.out.println("DEBUG: FileName is " + args[1]);
@@ -48,6 +51,15 @@ private static void DEBUGStarterCode(String[] args) {
  for (String inputFile : inputFiles) {
    DEBUGextractAuthorsName(inputFile);
  }
+ 
+ Author sampleOne = new Author(inputFiles[0]);
+ Author sampleTwo = new Author(inputFiles[1]);
+ System.out.println("-------------------------------------------------------");
+ sampleTwo.printAuthor();
+ System.out.println("-------------------------------------------------------");
+ sampleOne.printAuthor();
+ System.out.println("-------------------------------------------------------");
+ sampleOne.printAllCoAuthors();
 }
 
 
@@ -83,7 +95,7 @@ public String getHTML(String urlString) throws Exception {
  // create object to store html source text as it is being collected
  StringBuilder html = new StringBuilder();
  // open connection to given url
- URL url = new File(urlString).toURI().toURL();
+ URL url = new File(urlString).toURI().toURL(); 
  // create BufferedReader to buffer the given url's HTML source
  BufferedReader htmlbr =
      new BufferedReader(new InputStreamReader(url.openStream()));
