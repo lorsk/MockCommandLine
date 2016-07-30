@@ -11,8 +11,13 @@
 //*********************************************************
 package driver;
 
-public class MyParser {
+import java.util.ArrayList;
+import java.util.List;
 
+public class MyParser {
+  public static String outFile;
+  private static OutputInterface OI;
+  private static List<Author> allAuthors;
 /**
 * @param args
  * @throws Exception 
@@ -35,33 +40,27 @@ private static void DEBUGStarterCode(String[] args) throws Exception {
        + "Eclipse for argument0 and argument 1?");
  }
 
-
  // TODO Auto-generated method stub
  String inputFiles[] = args[0].split(",");
  
-
+ allAuthors = new ArrayList<Author>();
+ int counter = 0;
+ for (String fileName : inputFiles) {
+   allAuthors.add(new Author(fileName));
+   counter = counter + 1;
+ }
  
- Author sampleOne = new Author(inputFiles[0]);
- Author sampleTwo = new Author(inputFiles[1]);
- Author sampleThree = new Author(inputFiles[2]);
-
- 
-
  if (args.length > 1) {
-   String outfile = args[1];
-   WriteToFile file = new WriteToFile(outfile);
-   file.printAuthor(sampleOne);
-   file.printAuthor(sampleTwo);
-   file.printAuthor(sampleThree);
-   file.printAllCoAuthors();
+   outFile = args[1];
+   OI = new WriteToFile(allAuthors);
  }
  else {
-   sampleOne.printObject.printAuthor();
-   sampleTwo.printObject.printAuthor();
-   sampleThree.printObject.printAuthor();
-
-   WriteToConsole.printAllCoAuthors();
+   OI = new WriteToConsole(allAuthors);
  }
+ 
+ 
+ OI.printAllAuthors();
+ OI.printAllCoAuthors();
 
 }
 

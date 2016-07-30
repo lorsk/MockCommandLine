@@ -4,13 +4,15 @@ import java.util.List;
 
 public class ExtractTotalCitations extends AbstractExtractClass {
   
-  public ExtractTotalCitations(String AuthorUrlString) throws Exception {
-    this.rawHTMLString = RawHTMLContents.getHTML(AuthorUrlString);
+  final String reForCitedNum = "<td id=\"col-citedby\"><a class=\".*?>(.*?)<";
 
+  public ExtractTotalCitations(String rawHTMLString) {
+    this.rawHTMLString = rawHTMLString;
+    this.extracted = extractListOfItems(reForCitedNum, 5);
   }
   @Override
   public List<String> extract() {
-    return extractListOfItems(reForCitedNum, 5);
+    return this.extracted;
     
   }
 

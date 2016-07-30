@@ -3,14 +3,18 @@ package driver;
 import java.util.List;
 
 public class ExtractAuthorName extends AbstractExtractClass{
-
-  public ExtractAuthorName(String AuthorUrlString) throws Exception {
-    this.rawHTMLString = RawHTMLContents.getHTML(AuthorUrlString);
+  
+  final String reForNameExtraction = "<span id=\"cit-name-display\" "
+      + "class=\"cit-in-place-nohover\">(.*?)</span>";
+  
+  public ExtractAuthorName(String rawHTMLString) {
+    this.rawHTMLString = rawHTMLString;
+    this.extracted = extractListOfItems(reForNameExtraction);
 
   }
   @Override
   public List<String> extract() {
-    return extractListOfItems(reForNameExtraction);
+    return this.extracted;
     
   }
 
