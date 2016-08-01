@@ -1,4 +1,4 @@
-package driver;
+package Extract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ public abstract class AbstractExtractClass {
   Matcher matcherObject;
   String rawHTMLString;
   List<String> extracted;
-     
+
   abstract public List<String> extract();
 
-  
+
   /*
    * 
    */
@@ -24,7 +24,7 @@ public abstract class AbstractExtractClass {
       matcherObject = patternObject.matcher(rawHTMLString);
       while (matcherObject.find()) {
         listOfMatchedItems.add(matcherObject.group(1));
-        
+
       }
 
     } catch (Exception e) {
@@ -32,20 +32,20 @@ public abstract class AbstractExtractClass {
     }
     return listOfMatchedItems;
   }
-  
-  
+
+
   /*
    * 
    */
   protected List<String> extractListOfItems(String reForExtraction,
-                                          int numItems) {
+      int numItems) {
     List<String> listOfMatchedItems = new ArrayList<String>();
     try {
       patternObject = Pattern.compile(reForExtraction);
       matcherObject = patternObject.matcher(rawHTMLString);
       while (matcherObject.find() && listOfMatchedItems.size() < numItems) {
         listOfMatchedItems.add(matcherObject.group(1));
-        
+
       }
 
     } catch (Exception e) {
