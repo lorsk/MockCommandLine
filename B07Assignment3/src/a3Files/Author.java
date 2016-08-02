@@ -15,8 +15,6 @@ package a3Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import driver.MyParser;
-
 
 /*
  * This program extracts and stores all of the contents of the wanted Author.
@@ -25,18 +23,25 @@ import driver.MyParser;
  * regular expressions and stores the relevant information into the proper
  * variables
  */
-public class Author {
-
+public class Author {   
+  
+   // String that holds the raw html contents 
   String rawHTMLString;
   String HTMLfileName;
+  // Lists of all of the info that have been extracted from rawHTMLString
   List<String> authorName;
   List<String> numberOfCitations;
   List<String> i10IndexAfter2009;
   List<String> topPublications;
   List<String> coAuthorsList;
+  
+  // These two static variables contain the accumulated Co-authors
+  // every time an instance of Author is made, it adds on to their co-authors 
+  // to these variables
   static List<String> totalCoAuthors = new ArrayList<String>();
   static int numberOfTotalCoAuthors = 0;
 
+  // Instances of the Extract classes that are used to extract the wanted info
   ExtractAuthorName name;
   ExtractNumberOfCitations citations;
   ExtractTopPublications publications;
@@ -44,16 +49,23 @@ public class Author {
   ExtractTotalCitations totalPaperCitations;
   ExtractCoAuthors coAuthors;
 
-  int numberOfCoAuthors;
+  int numberOfLocalCoAuthors;
   int totalCitations = 0;
 
+  // a boolean variable that is used to identify whether the html file that 
+  // this author instance is tied to, exists or not
+  // if False, it does not get outputted 
   boolean exists = true;
 
   /*
-   * Constructor that creates the author instance
+   * Constructor that creates the Author instance
    */
   public Author(String AuthorUrlString) {
     this.HTMLfileName = AuthorUrlString;
+    
+    // Attempts to get the raw contents of the file and extract all the needed
+    // information, if no such file exists, raises and exception and sets
+    // exists to false
     try {
       this.rawHTMLString = RawHTMLContents.getHTML(AuthorUrlString);
 
@@ -70,15 +82,18 @@ public class Author {
       this.i10IndexAfter2009 = itenIndex.extract();
 
       totalPaperCitations = new ExtractTotalCitations(this.rawHTMLString);
+      // After extraction all of the citations, this loop 
+      // adds them together to find the total citations for the top 
+      // 5 publications
       for (String cts : totalPaperCitations.extract()) {
         this.totalCitations = (this.totalCitations + Integer.valueOf(cts));
       }
 
       coAuthors = new ExtractCoAuthors(this.rawHTMLString);
       this.coAuthorsList = coAuthors.extract();
-      this.numberOfCoAuthors = coAuthorsList.size();
-
-      numberOfTotalCoAuthors = numberOfTotalCoAuthors + numberOfCoAuthors;
+      this.numberOfLocalCoAuthors = coAuthorsList.size();
+      
+      numberOfTotalCoAuthors = numberOfTotalCoAuthors + numberOfLocalCoAuthors;
 
       totalCoAuthors.addAll(coAuthorsList);
       java.util.Collections.sort(totalCoAuthors);
@@ -87,16 +102,5 @@ public class Author {
       System.out.print(AuthorUrlString + " file not found");
       this.exists = false;
     }
-  }
-
-  public static Author getObject(String name) {
-    Author returnAuthor = null;
-    for (Author author : MyParser.allAuthors) {
-      if (author.HTMLfileName == name) {
-        returnAuthor = author;
-      }
-    }
-    return returnAuthor;
-
   }
 }

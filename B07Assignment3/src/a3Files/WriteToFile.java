@@ -3,10 +3,14 @@ package a3Files;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import driver.MyParser;
 
+/* 
+ * This class is in charge of writing the string formatted by the 
+ * FormatContent class onto a specified file
+ */
 public class WriteToFile implements OutputInterface {
 
   // the instance that holds the strings extracted from author,
@@ -18,24 +22,24 @@ public class WriteToFile implements OutputInterface {
   // This is the file instance of the file that will contain all of the
   // needed information
   File outFile;
-  // This contains a list of all of the author instances. (Contains as many
+  // This contains a set of all of the author instances. (Contains as many
   // instances as there were files specified in the argument in MyParser)
-  List<Author> allAuthors;
+  Set<Author> allAuthors;
   // object
   FileWriter fw;
 
   /*
    * This creates an instance of the WriteToConsole class which extends the
-   * OutputInterface interface. It takes in a list of authors as a parameter and
+   * OutputInterface interface. It takes in a set of authors as a parameter and
    * then uses the FormatContent class to create a string of all the authors
    * information in the specified format. This string will then be written on to
    * a file by the printAllAuthors() method
    */
-  public WriteToFile(List<Author> authors) {
+  public WriteToFile(Set<Author> allAuthors2) {
     // create object that contains the formatted string
-    formattedContent = new FormatContent(authors);
+    formattedContent = new FormatContent(allAuthors2);
     // create the instance variable that will hold the list of authors
-    this.allAuthors = authors;
+    this.allAuthors = allAuthors2;
 
     // creates a file with the outFile name. This is simply to check
     // whether a file with this name exists already
@@ -102,7 +106,7 @@ public class WriteToFile implements OutputInterface {
    * 
    * @see a3Files.OutputInterface#getAllAuthors()
    */
-  public List<Author> getAllAuthors() {
+  public Set<Author> getAllAuthors() {
     return allAuthors;
   }
 }

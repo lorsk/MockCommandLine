@@ -1,14 +1,16 @@
 package a3Files;
 
-import java.util.List;
+import java.util.Set;
 
-// import java.util.List;
-
+/*
+ * This class is in charge of outputting the string formatted by the 
+ * FormatContent classand outputting it onto the console
+ */
 public class WriteToConsole implements OutputInterface {
 
   // this is the instance of the Author object that has the info
   // that needs to be printed
-  List<Author> allAuthors;
+  Set<Author> allAuthors;
 
   // String that holds the formatted information on all the authors and their
   // co-authors
@@ -21,7 +23,7 @@ public class WriteToConsole implements OutputInterface {
    * information in the specified format. This string will then be printed to
    * the console by the printAllAuthors() method
    */
-  public WriteToConsole(List<Author> authors) {
+  public WriteToConsole(Set<Author> authors) {
     this.allAuthors = authors;
     this.formattedContent = new FormatContent(authors);
 
@@ -55,7 +57,7 @@ public class WriteToConsole implements OutputInterface {
   /*
    * @see a3Files.OutputInterface#getAllAuthors()
    */
-  public List<Author> getAllAuthors() {
+  public Set<Author> getAllAuthors() {
     return allAuthors;
   }
 

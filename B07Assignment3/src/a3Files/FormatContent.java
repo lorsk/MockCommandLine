@@ -1,7 +1,12 @@
 package a3Files;
 
 import java.util.List;
+import java.util.Set;
 
+/*
+ * This class defines the format of the String that will be outputed to 
+ * the console or a file
+ */
 public class FormatContent {
 
   // this is the instance of the Author object that has the info
@@ -13,9 +18,14 @@ public class FormatContent {
   /*
    * This class creates the formatted string
    */
-  public FormatContent(List<Author> authors) {
-    for (Author author : authors) {
+  public FormatContent(Set<Author> allAuthors2) {
+    for (Author author : allAuthors2) {
+      // This runs only if the html file for this author exists. 
+      // this is determined in that Author class when the instance of the
+      // Author is instantiated
       if (author.exists) {
+        
+        // adds the content to the String in the format specified
         addToContent("\n------------------------------------------------");
         addToContent("\n1. Name of Author");
         addListToContent(author.authorName);
@@ -33,12 +43,14 @@ public class FormatContent {
         addToContent("\n5. Total paper citation (first 5 papers):");
         addToContent("\n\t" + author.totalCitations);
         addToContent("\n6. Total Co-Authors:");
-        addToContent("\n\t" + author.numberOfCoAuthors);
+        addToContent("\n\t" + author.numberOfLocalCoAuthors);
       }
     }
   }
 
   /*
+   * returns the formatted string containing all the info for the multiple 
+   * authors
    * 
    */
   public String getFormattedString() {
@@ -46,14 +58,15 @@ public class FormatContent {
   }
 
   /*
-   * 
+   * returns the formatted string containing the list of the accumulated 
+   * co-authors
    */
   public static String getCoAuthorsString() {
     return allCoAuthorsString;
   }
 
   /*
-   * 
+   * appends content to formattedString
    */
   private void addToContent(String content) {
     formattedString = formattedString + content;
@@ -74,7 +87,9 @@ public class FormatContent {
   }
 
   /*
-   * 
+   *  This defines how the information for outputting step 7 (the co-authors)
+   *  is formatted. In this case, it simply writes every co-author on a 
+   *  separate line
    */
   public static void addContentToCoAuthors() {
     addToCoAuthorsString("\n------------------------------------------------");
@@ -87,12 +102,18 @@ public class FormatContent {
 
 
   /*
-   * 
+   * appends string to allCoAuthorsString
    */
   private static void addToCoAuthorsString(String string) {
     allCoAuthorsString = allCoAuthorsString + string;
 
   }
 
+  /*
+   * 
+   */
+  public static void resetCoAuthors() {
+    allCoAuthorsString = "";
+  }
 
 }
