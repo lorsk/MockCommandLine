@@ -1,9 +1,9 @@
-package Extract;
+package a3Files;
 
 import java.util.List;
 
 public class ExtractAuthorName extends AbstractExtractClass {
-
+  private List<String> extracted;
   final String reForNameExtraction = "<span id=\"cit-name-display\" "
       + "class=\"cit-in-place-nohover\">(.*?)</span>";
 
