@@ -11,18 +11,25 @@
 // *********************************************************
 package driver;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import a3Files.Author;
 import a3Files.OutputInterface;
 import a3Files.WriteToConsole;
 import a3Files.WriteToFile;
 
+/*
+ * this is the driver of the program that takes in 1 mandatory argument and 
+ * 1 optional argument. The first argument is all of the html files that
+ * correspond to the authors and the second is the name of the file that 
+ * will be written to. If the second argument is not given, the information
+ * will be outputted to the console
+ */
 public class MyParser {
   public static String outFile;
   private static OutputInterface OI;
-  public static List<Author> allAuthors;
+  public static Set<Author> allAuthors;
 
   /**
    * @param args
@@ -41,7 +48,7 @@ public class MyParser {
 
     String inputFiles[] = args[0].split(",");
 
-    allAuthors = new ArrayList<Author>();
+    allAuthors = new HashSet<Author>();
     int counter = 0;
     for (String fileName : inputFiles) {
       allAuthors.add(new Author(fileName));
