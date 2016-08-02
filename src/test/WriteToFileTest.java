@@ -3,10 +3,10 @@ package test;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ import driver.MyParser;
 public class WriteToFileTest {
   String fileContent = "";
   WriteToFile writeToFile;
-  Set<Author> authors;
+  Set<Author> authors = new HashSet<Author>();
   String testOutput;
   WriteToFile wtf;
   File file;
@@ -29,7 +29,7 @@ public class WriteToFileTest {
     MyParser.outFile = "outfile.txt";
     writeToFile = new WriteToFile(authors);
     wtf = new WriteToFile(authors);
-
+    
     testOutput = "\n------------------------------------------------"
         + "\n1. Name of Author" + "\n\tOla Spjuth"
         + "\n2. Number of All Citations:" + "\n\t437"
@@ -45,19 +45,18 @@ public class WriteToFileTest {
     file = new File("outfile.txt");
     inputFile = new Scanner(file);
 
-    while (inputFile.hasNext()) {
+    while (inputFile.hasNextLine()) {
       fileContent = fileContent + inputFile.nextLine();
     }
-    
+    System.out.println(fileContent);
+    inputFile.close();
   }
   
-  //@After 
-  //public void tearDown() {
-  //  inputFile.close();
-  // }
+
   @Test
   public void printAllAuthorsTest() {
     //TODO
+
     assertEquals(fileContent, testOutput);
 
   }
