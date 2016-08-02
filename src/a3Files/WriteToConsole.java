@@ -1,4 +1,4 @@
-package driver;
+package a3Files;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ public class WriteToConsole implements OutputInterface {
   // this is the instance of the Author object that has the info
   // that needs to be printed
   List<Author> allAuthors;
-  
-  // String that holds the formatted information on all the authors and their 
+
+  // String that holds the formatted information on all the authors and their
   // co-authors
-  FormatContent formattedContent;
+  public FormatContent formattedContent;
 
   /*
    * This creates an instance of the WriteToConsole class which extends the
@@ -29,26 +29,31 @@ public class WriteToConsole implements OutputInterface {
 
   @Override
   /*
-   * @see driver.OutputInterface#printAllAuthors()
+   * (non-Javadoc)
+   * 
+   * @see a3Files.OutputInterface#printAllAuthors()
    */
   public void printAllAuthors() {
-    System.out.println(this.formattedContent.getFormattedString());
+    System.out.print(this.formattedContent.getFormattedString());
 
   }
 
   @Override
   /*
-   * @see driver.OutputInterface#printAllCoAuthors()
+   * (non-Javadoc)
+   * 
+   * @see a3Files.OutputInterface#printAllCoAuthors()
    */
   public void printAllCoAuthors() {
+    // all the co-authors are added to the string and formatted
     FormatContent.addContentToCoAuthors();
-
+    // outputs all co-authors to the console
     System.out.println(FormatContent.getCoAuthorsString());
   }
 
   @Override
   /*
-   * @see driver.OutputInterface#getAllAuthors()
+   * @see a3Files.OutputInterface#getAllAuthors()
    */
   public List<Author> getAllAuthors() {
     return allAuthors;

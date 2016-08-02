@@ -1,4 +1,4 @@
-package driver;
+package a3Files;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,12 +6,16 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class RawHTMLContents {
-  
+
+  /*
+   * This class takes in the html file name (example: sample1.html) and then
+   * returns the string that contains the raw HTML code
+   */
   public static String getHTML(String urlString) throws Exception {
     // create object to store html source text as it is being collected
     StringBuilder html = new StringBuilder();
     // open connection to given url
-    URL url = new File(urlString).toURI().toURL(); 
+    URL url = new File(urlString).toURI().toURL();
     // create BufferedReader to buffer the given url's HTML source
     BufferedReader htmlbr =
         new BufferedReader(new InputStreamReader(url.openStream()));
@@ -23,6 +27,6 @@ public class RawHTMLContents {
     htmlbr.close();
     // convert StringBuilder into a String and return it
     return html.toString();
-   }
-  
+  }
+
 }

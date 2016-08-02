@@ -14,10 +14,15 @@ package driver;
 import java.util.ArrayList;
 import java.util.List;
 
+import a3Files.Author;
+import a3Files.OutputInterface;
+import a3Files.WriteToConsole;
+import a3Files.WriteToFile;
+
 public class MyParser {
   public static String outFile;
   private static OutputInterface OI;
-  private static List<Author> allAuthors;
+  public static List<Author> allAuthors;
 
   /**
    * @param args
@@ -32,16 +37,8 @@ public class MyParser {
    * how this method is being used, you are free to refactor it, modify it, or
    * change it, or remove it entirely in any way you like.
    */
-  private static void DEBUGStarterCode(String[] args) throws Exception {
-    try {
-      System.out.println("DEBUG: URLS are " + args[0]);
-      System.out.println("DEBUG: FileName is " + args[1]);
-    } catch (Exception e) {
-      System.out.println("Did you change the run configuration in"
-          + "Eclipse for argument0 and argument 1?");
-    }
+  private static void DEBUGStarterCode(String[] args) {
 
-    // TODO Auto-generated method stub
     String inputFiles[] = args[0].split(",");
 
     allAuthors = new ArrayList<Author>();
@@ -51,13 +48,13 @@ public class MyParser {
       counter = counter + 1;
     }
 
+
     if (args.length > 1) {
       outFile = args[1];
       OI = new WriteToFile(allAuthors);
     } else {
       OI = new WriteToConsole(allAuthors);
     }
-
 
     OI.printAllAuthors();
     OI.printAllCoAuthors();

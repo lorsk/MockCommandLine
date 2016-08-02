@@ -10,17 +10,12 @@
 // help from no one in designing and debugging my program.
 // *********************************************************
 
-package driver;
+package a3Files;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Extract.ExtractAuthorName;
-import Extract.ExtractCoAuthors;
-import Extract.ExtractITenIndex;
-import Extract.ExtractNumberOfCitations;
-import Extract.ExtractTopPublications;
-import Extract.ExtractTotalCitations;
+import driver.MyParser;
 
 
 /*
@@ -33,7 +28,7 @@ import Extract.ExtractTotalCitations;
 public class Author {
 
   String rawHTMLString;
-
+  String HTMLfileName;
   List<String> authorName;
   List<String> numberOfCitations;
   List<String> i10IndexAfter2009;
@@ -52,44 +47,56 @@ public class Author {
   int numberOfCoAuthors;
   int totalCitations = 0;
 
+  boolean exists = true;
+
   /*
    * Constructor that creates the author instance
    */
   public Author(String AuthorUrlString) {
+    this.HTMLfileName = AuthorUrlString;
     try {
       this.rawHTMLString = RawHTMLContents.getHTML(AuthorUrlString);
+
+      name = new ExtractAuthorName(this.rawHTMLString);
+      this.authorName = name.extract();
+
+      citations = new ExtractNumberOfCitations(this.rawHTMLString);
+      this.numberOfCitations = citations.extract();
+
+      publications = new ExtractTopPublications(this.rawHTMLString);
+      this.topPublications = publications.extract();
+
+      itenIndex = new ExtractITenIndex(this.rawHTMLString);
+      this.i10IndexAfter2009 = itenIndex.extract();
+
+      totalPaperCitations = new ExtractTotalCitations(this.rawHTMLString);
+      for (String cts : totalPaperCitations.extract()) {
+        this.totalCitations = (this.totalCitations + Integer.valueOf(cts));
+      }
+
+      coAuthors = new ExtractCoAuthors(this.rawHTMLString);
+      this.coAuthorsList = coAuthors.extract();
+      this.numberOfCoAuthors = coAuthorsList.size();
+
+      numberOfTotalCoAuthors = numberOfTotalCoAuthors + numberOfCoAuthors;
+
+      totalCoAuthors.addAll(coAuthorsList);
+      java.util.Collections.sort(totalCoAuthors);
+
     } catch (Exception e) {
       System.out.print(AuthorUrlString + " file not found");
-
+      this.exists = false;
     }
-
-    name = new ExtractAuthorName(this.rawHTMLString);
-    this.authorName = name.extract();
-
-    citations = new ExtractNumberOfCitations(this.rawHTMLString);
-    this.numberOfCitations = citations.extract();
-
-    publications = new ExtractTopPublications(this.rawHTMLString);
-    this.topPublications = publications.extract();
-
-    itenIndex = new ExtractITenIndex(this.rawHTMLString);
-    this.i10IndexAfter2009 = itenIndex.extract();
-
-    totalPaperCitations = new ExtractTotalCitations(this.rawHTMLString);
-    for (String cts : totalPaperCitations.extract()) {
-      this.totalCitations = (this.totalCitations + Integer.valueOf(cts));
-    }
-
-    coAuthors = new ExtractCoAuthors(this.rawHTMLString);
-    this.coAuthorsList = coAuthors.extract();
-    this.numberOfCoAuthors = coAuthorsList.size();
-
-    numberOfTotalCoAuthors = numberOfTotalCoAuthors + numberOfCoAuthors;
-
-    totalCoAuthors.addAll(coAuthorsList);
-    java.util.Collections.sort(totalCoAuthors);
-
-
   }
 
+  public static Author getObject(String name) {
+    Author returnAuthor = null;
+    for (Author author : MyParser.allAuthors) {
+      if (author.HTMLfileName == name) {
+        returnAuthor = author;
+      }
+    }
+    return returnAuthor;
+
+  }
 }
